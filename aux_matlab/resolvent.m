@@ -60,7 +60,6 @@ tic
 fprintf('  Starting LU-decomposition of L-sigma*I: ');
 LsI                 = L0-1i*omega*speye(nDOF);
 [R,R_T]  =  GetInverseFunction(LsI);
-% [LL,UU,pp,qq,rr]    = lu(LsI);
 time = toc;
 disp(['    elapsed time - LU-decomposition of L-sigma*I: ' datestr(time/24/3600, 'HH:MM:SS')]);
 
@@ -76,10 +75,9 @@ else
 end
 
 % Function handle for resolvent operator H and Hermitian H*H
-% H           = @(v) FILTER   (C *(qq *(UU \(LL \(pp *(rr \(B *FILTER   (v))))))));
-% Htr         = @(v) FILTER_ct(B'*(rr'\(pp'*(LL'\(UU'\(qq'*(C'*FILTER_ct(v))))))));
-H           = @(v) FILTER   (C *R(  B * FILTER(v)));
-Htr         = @(v) FILTER_ct(B'*R_T(C'* FILTER_ct(v)));
+H           = @(v) C *FILTER(   R(  FILTER(   B *v)));
+Htr         = @(v) B'*FILTER_ct(R_T(FILTER_ct(C'*v)));
+
 HtrH        = @(v) invW*Htr(W*H(v));
 
 % 'eigs' parameters
