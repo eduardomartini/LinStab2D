@@ -1,8 +1,9 @@
-function [defMesh] = DeformMesh(mesh,X2,Y2,fixSquareDomain)
+function [defMesh] = DeformMesh(mesh,X2,Y2,imposeXcoordinatesPeriodicity)
     % newMesh = DeformMesh(mesh,X2,Y2)
     % Deforms the 'mesh' object to the coordinates given by X2 and Y2.
-    % Derivative matrices and integration weights are updated accordinly. 
-    if ~exist('fixSquareDomain') ; fixSquareDomain = false;    end
+    % Derivative matrices and integration weights are updated accordingly. 
+
+    if ~exist('imposeXcoordinatesPeriodicity') ; imposeXcoordinatesPeriodicity = false;    end
     
     fprintf( '--- Deforming mesh ...  '); tic();
     
@@ -12,8 +13,9 @@ function [defMesh] = DeformMesh(mesh,X2,Y2,fixSquareDomain)
     
     defMesh                 = mesh;
     
-
-    if fixSquareDomain && ~isempty(X2)
+    % If periodic conditions along x are imposed, we need to remove the linear trend in x before computing the Jacobians. 
+    % The corresponding costant is then added a posteriori to the Jacobians. This avoids the discontinuity of x on the boundaries.
+    if imposeXcoordinatesPeriodicity && ~isempty(X2)
         x1 = min(X2(:));
         x2 = max(X2(:));
         
