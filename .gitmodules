@@ -1,0 +1,3 @@
+[submodule "FDM-Uniform-Grid"]
+	path = aux_matlab/MeshOperations/FDM-Uniform-Grid
+	url = https://github.com/chenyangweng/FDM-Uniform-Grid
