@@ -157,7 +157,7 @@ if returnPhysicalSpace
     for i = 1:nEig
         % Re scale modes for norm 1 force
         v = V(:,i);
-        scale = v'*(Wf*v);
+        scale = sqrt(v'*(Wf*v));
         Vout(:,i) = Vout(:,i)/scale;
 
         % reponse from the forcing in filter space (before multiplication 
@@ -170,7 +170,7 @@ else
     for i = 1:nEig
         % Re scale modes for norm 1 force
         v = V(:,i);
-        scale = v'*(Wf*v);
+        scale = sqrt(v'*(Wf*v));
         Vout(:,i) = Vout(:,i)/scale;
 
         % reponse from the forcing in output space (after multiplication 
